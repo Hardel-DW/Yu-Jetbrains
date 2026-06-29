@@ -1,0 +1,67 @@
+{
+  parserClass="fr.hardel.yu.idea.lang.parser.McuiParser"
+  parserUtilClass="com.intellij.lang.parser.GeneratedParserUtilBase"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Mcui"
+  psiImplClassSuffix="Impl"
+  psiPackage="fr.hardel.yu.idea.lang.psi"
+  psiImplPackage="fr.hardel.yu.idea.lang.psi.impl"
+
+  elementTypeHolderClass="fr.hardel.yu.idea.lang.psi.McuiTypes"
+  elementTypeClass="fr.hardel.yu.idea.lang.psi.McuiElementType"
+  tokenTypeClass="fr.hardel.yu.idea.lang.psi.McuiTokenType"
+
+  tokens=[
+    L_ANGLE='<'
+    L_ANGLE_SLASH='</'
+    R_ANGLE='>'
+    R_ANGLE_SLASH='/>'
+    EQ='='
+    TAG_NAME='TAG_NAME'
+    ATTR_NAME='ATTR_NAME'
+    STRING='STRING'
+    TEXT='TEXT'
+    ENTITY='ENTITY'
+    COMMENT='COMMENT'
+    INTERP_START='{{'
+    INTERP_END='}}'
+    INTERP_EXPR='INTERP_EXPR'
+  ]
+}
+
+root ::= item *
+
+private item ::= element | interpolation | COMMENT | ENTITY | TEXT
+
+element ::= L_ANGLE TAG_NAME attribute * tag_tail {
+  pin=2
+  recoverWhile=element_recover
+}
+
+private tag_tail ::= R_ANGLE_SLASH | tag_body
+
+private tag_body ::= R_ANGLE item * end_tag {
+  pin=1
+}
+
+end_tag ::= L_ANGLE_SLASH TAG_NAME R_ANGLE {
+  pin=1
+}
+
+attribute ::= ATTR_NAME assignment ? {
+  pin=1
+}
+
+private assignment ::= EQ attribute_value {
+  pin=1
+}
+
+attribute_value ::= STRING
+
+interpolation ::= INTERP_START INTERP_EXPR ? INTERP_END {
+  pin=1
+}
+
+private element_recover ::= !(L_ANGLE | L_ANGLE_SLASH | INTERP_START)

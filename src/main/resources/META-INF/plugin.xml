@@ -1,0 +1,33 @@
+<idea-plugin>
+    <depends>com.intellij.modules.platform</depends>
+
+    <resource-bundle>messages.McuiBundle</resource-bundle>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="Mcui"
+                language="Mcui"
+                implementationClass="fr.hardel.yu.idea.lang.McuiFileType"
+                fieldName="INSTANCE"
+                extensions="mcui"/>
+        <lang.parserDefinition
+                language="Mcui"
+                implementationClass="fr.hardel.yu.idea.lang.McuiParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="Mcui"
+                implementationClass="fr.hardel.yu.idea.lang.highlight.McuiSyntaxHighlighterFactory"/>
+        <colorSettingsPage
+                implementation="fr.hardel.yu.idea.lang.highlight.McuiColorSettingsPage"/>
+        <lang.commenter
+                language="Mcui"
+                implementationClass="fr.hardel.yu.idea.lang.editor.McuiCommenter"/>
+        <lang.braceMatcher
+                language="Mcui"
+                implementationClass="fr.hardel.yu.idea.lang.editor.McuiBraceMatcher"/>
+        <lang.foldingBuilder
+                language="Mcui"
+                implementationClass="fr.hardel.yu.idea.lang.editor.McuiFoldingBuilder"/>
+        <typedHandler
+                implementation="fr.hardel.yu.idea.lang.editor.McuiTypedHandler"/>
+    </extensions>
+</idea-plugin>
